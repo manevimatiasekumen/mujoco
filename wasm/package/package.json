@@ -1,25 +1,12 @@
 {
   "name": "mujoco-js",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "The official MuJoCo WebAssembly module",
-
-  "main": "mujoco_wasm.js",
-  "types": "mujoco_wasm.d.ts",
-
-  "exports": {
-    ".": {
-      "types": "./mujoco_wasm.d.ts",
-      "import": "./mujoco_wasm.js",
-      "default": "./mujoco_wasm.js"
-    }
-  },
-
+  "type": "module",
+  "main": "./dist/mujoco_wasm.js",
+  "types": "./dist/mujoco_wasm.d.ts",
   "files": [
-    "mujoco_wasm.js",
-    "mujoco_wasm.d.ts",
-    "mujoco_wasm.wasm",
-    "mujoco_wasm.wasm.map",
-    "README.md"
+    "dist"
   ],
   "scripts": {
     "build": "./build.sh",
@@ -27,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/google-deepmind/mujoco.git",
+    "url": "git+https://github.com/google-deepmind/mujoco.git",
     "directory": "wasm/package"
   },
   "keywords": [
