@@ -25,6 +25,7 @@ add_compile_options(-fexceptions)
 # Set Emscripten linker flags
 set(EMCC_LINKER_FLAGS
     "--bind"
+    "-s SINGLE_FILE=1"
     "-s ASSERTIONS=1"
     "-s ALLOW_MEMORY_GROWTH=1"
     "-s EXPORT_ES6=1"
