@@ -1,4 +1,4 @@
-name: Build, Test, and Publish MuJoCo WASM Package
+name: Publish MuJoCo WASM Package
 
 on:
   push:
