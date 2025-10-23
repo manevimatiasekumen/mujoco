@@ -30,6 +30,7 @@ cmake --build build
 # 3. Now that 'wasm/dist/' is created, copy the artifacts
 #    into the 'wasm/package/dist/' directory so npm can find them.
 echo "Copying build artifacts from dist/ to package/..."
+mkdir -p package/dist/
 cp dist/* package/dist/
 
 echo "--- Build and Copy Complete ---"
