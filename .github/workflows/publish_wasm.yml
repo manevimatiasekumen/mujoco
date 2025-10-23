@@ -14,10 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          repository: manevimatiasekumen/mujoco.git
           ref: 'main_wasm_package'
 
       - name: Set up Emscripten (emsdk)
-        uses: emscripten-core/setup-emscripten@v4
+        uses: mymindstorm/setup-emsdk@v14
         with:
           version: '4.0.10'
           actions-cache-folder: 'emsdk-cache'
