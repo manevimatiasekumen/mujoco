@@ -1,0 +1,60 @@
+name: Publish MuJoCo WASM Package
+
+on:
+  push:
+    branches: [main_wasm_package]
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: 'main_wasm_package'
+
+      - name: Set up Emscripten (emsdk)
+        uses: emscripten-core/setup-emscripten@v4
+        with:
+          version: '4.0.10'
+          actions-cache-folder: 'emsdk-cache'
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup Node.js (for testing)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'wasm/package-lock.json'
+
+      - name: Install dependencies for tests
+        working-directory: ${{ github.workspace }}/wasm
+        run: npm install
+
+      - name: Run JavaScript Tests
+        working-directory: ${{ github.workspace }}/wasm
+        run: |
+          export PATH="$(pwd)/node_modules/.bin:$PATH" && \
+          emcmake cmake -S tests -B tests/build && \
+          cmake --build tests/build && \
+          PYTHONPATH=../python/mujoco:../wasm python3 tests/enums_test_generator.py && \
+          npm run test
+
+      - name: Setup Node.js (for publishing)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Publish to NPM
+        working-directory: ${{ github.workspace }}/wasm/package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
