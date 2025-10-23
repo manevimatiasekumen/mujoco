@@ -1,6 +1,6 @@
 {
   "name": "mujoco-js",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "The official MuJoCo WebAssembly module",
   "type": "module",
   "main": "./dist/mujoco_wasm.js",
