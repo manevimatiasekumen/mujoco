@@ -85,8 +85,8 @@ sourced:
 export PATH="$(pwd)/node_modules/.bin:$PATH" && \
 emcmake cmake -S .. -B ../build && \
 cmake --build ../build && \
-emcmake cmake -S . -B build && \
-cmake --build build
+emcmake cmake -S . -B package/build && \
+cmake --build package/build
 ```
 
 The above command will generate the following folders:
