@@ -1,0 +1,92 @@
+name: Publish MuJoCo WASM Package
+
+on:
+  push:
+    branches:
+      - main_wasm_package
+
+jobs:
+  build_and_test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          repository: manevimatiasekumen/mujoco
+          ref: main_wasm_package
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Set up Emscripten (emsdk)
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: '4.0.10'
+          actions-cache-folder: 'emsdk-cache'
+
+      - name: Verify Emscripten installation
+        run: emcc --version
+
+      - name: Install wasm npm dependencies
+        working-directory: wasm
+        run: npm install
+
+      - name: Build MuJoCo and Bindings
+        working-directory: wasm/package
+        run: ./build.sh
+
+      - name: Run JavaScript Tests
+        working-directory: wasm
+        run: |
+          # Export path as required by your test setup
+          export PATH="$(pwd)/node_modules/.bin:$PATH"
+
+          # Run the test build commands
+          emcmake cmake -S tests -B tests/build
+          cmake --build tests/build
+
+          # Run the test generator
+          PYTHONPATH=../python/mujoco:../wasm python3 tests/enums_test_generator.py
+
+          # Run the tests
+          npm run test
+
+      - name: Upload npm package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mujoco-js-package
+          path: wasm/package/
+          retention-days: 1
+
+  publish:
+    name: Publish to NPM
+    needs: build_and_test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download npm package artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mujoco-js-package
+          path: wasm/package/
+
+      - name: Setup Node.js for publish
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish package to NPM
+        working-directory: wasm/package
+        run: npm publish --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
