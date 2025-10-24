@@ -1,6 +1,6 @@
-import { MainModule, MjData, MjModel } from "../../dist/mujoco_wasm"
+import { MainModule, MjData, MjModel } from "../../package/dist/mujoco_wasm"
 
-import loadMujoco from "../../dist/mujoco_wasm.js"
+import loadMujoco from "../../package/dist/mujoco_wasm.js"
 
 declare function loadMujoco(): Promise<MainModule>;
 

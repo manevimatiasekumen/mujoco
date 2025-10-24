@@ -1,8 +1,8 @@
 import 'jasmine';
 
 
-import { MainModule } from "../dist/mujoco_wasm"
-import loadMujoco from "../dist/mujoco_wasm.js"
+import { MainModule } from "../package/dist/mujoco_wasm"
+import loadMujoco from "../package/dist/mujoco_wasm.js"
 
 
 let mujoco: MainModule;

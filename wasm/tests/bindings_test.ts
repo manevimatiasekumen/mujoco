@@ -6,9 +6,9 @@ import {
   MjContactVec,
   MjData,
   MjModel,
-} from "../dist/mujoco_wasm"
+} from "../package/dist/mujoco_wasm"
 
-import loadMujoco from "../dist/mujoco_wasm.js"
+import loadMujoco from "../package/dist/mujoco_wasm.js"
 
 // Corresponds to bindings_test.py:TEST_XML
 const TEST_XML = `
