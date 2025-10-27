@@ -19,7 +19,7 @@ TypeScript.
 ## Prerequisites
 
 - To compile the [`bindings.cc`](codegen/generated/bindings.cc) file, which
-  generates the `.wasm` WebAssembly file, `.js` JavaScript import, and `.d.ts`
+  generates the `.js` JavaScript import, and `.d.ts`
   TypeScript declaration file, you will need Emscripten SDK version `4.0.10`.
   Later versions may work but are untested. To set up the SDK, do the
   following:
@@ -74,7 +74,7 @@ PYTHONPATH=../python/mujoco:./codegen python3 codegen/update.py
 
 Once the C++ files are generated (note that, for convenience, we already provide
 the output of the above script in the [`generated`](codegen/generated) folder),
-the next step is to build the `.wasm`, `.js`, and `.d.ts` files from the C++
+the next step is to build the `.js`, and `.d.ts` files from the C++
 sources (which are the files you will use to call MuJoCo from JavaScript). Make
 sure you have set up npm and the Emscripten SDK prerequisites, then run the
 following in the same terminal session where the `emsdk` environment was
